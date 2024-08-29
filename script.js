@@ -1,4 +1,4 @@
-// DOM elements
+// Constants and State
 const elements = {
   inputBox: document.getElementById('input'),
   expressionDiv: document.getElementById('expression'),
@@ -9,7 +9,6 @@ const elements = {
   scientificButtons: document.getElementById('scientific-buttons')
 };
 
-// Global state
 const state = {
   expression: '',
   result: '',
@@ -18,18 +17,20 @@ const state = {
   isInverse: false
 };
 
-// Event listeners
-document.addEventListener('DOMContentLoaded', initializeCalculator);
-elements.inputBox.addEventListener('click', buttonClick);
-document.addEventListener('keydown', handleKeyPress);
-elements.themeToggle.addEventListener('click', toggleTheme);
-elements.themeToggle.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  toggleTheme();
-});
-elements.toggleScientificBtn.addEventListener('click', toggleScientific);
+// Event Listeners
+function setupEventListeners() {
+  document.addEventListener('DOMContentLoaded', initializeCalculator);
+  elements.inputBox.addEventListener('click', buttonClick);
+  document.addEventListener('keydown', handleKeyPress);
+  elements.themeToggle.addEventListener('click', toggleTheme);
+  elements.themeToggle.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    toggleTheme();
+  });
+  elements.toggleScientificBtn.addEventListener('click', toggleScientific);
+}
 
-// Main functions
+// Main Functions
 function buttonClick(event) {
   const { action, value } = event.target.dataset;
   const actions = {
@@ -56,10 +57,6 @@ function buttonClick(event) {
   (actions[action] || actions[getActionType(action)])?.();
   updateDisplay();
   updateClearButton();
-}
-
-function getActionType(action) {
-  return ['addition', 'subtraction', 'multiplication', 'division', 'exponent'].includes(action) ? 'operator' : action;
 }
 
 function updateDisplay() {
@@ -92,14 +89,7 @@ function submit() {
   }, 1000);
 }
 
-// Helper functions
-function animateTransition() {
-  elements.expressionDiv.style.transition = elements.resultDiv.style.transition = 'all 0.5s ease';
-  elements.expressionDiv.style.opacity = '0';
-  elements.expressionDiv.style.transform = 'translateY(-100%)';
-}
-
-// Basic calculator functions
+// Basic Calculator Functions
 function addValue(value) {
   state.expression = state.expression === '0' ? value : state.expression + value;
   updateDisplay();
@@ -138,7 +128,7 @@ function percentage() {
   updateDisplay();
 }
 
-// Evaluation functions
+// Evaluation Functions
 function evaluateExpression() {
   try {
     let sanitizedExpression = state.expression
@@ -183,7 +173,7 @@ function factorial(n) {
   return n <= 1 ? 1 : n * factorial(n - 1);
 }
 
-// Event handling functions
+// Event Handling Functions
 function handleKeyPress({ key }) {
   const keyMappings = {
     'Enter': 'submit',
@@ -212,7 +202,7 @@ function handleKeyPress({ key }) {
   button?.click();
 }
 
-// Theme toggle functionality
+// Theme Toggle Functionality
 function toggleTheme() {
   elements.body.classList.toggle('light-theme');
   const isLightTheme = elements.body.classList.contains('light-theme');
@@ -220,7 +210,7 @@ function toggleTheme() {
   localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
 }
 
-// Scientific calculator functions
+// Scientific Calculator Functions
 const addPi = () => addValue(Math.PI.toFixed(10));
 const addSqrt = () => {
   if (!isNaN(state.expression.slice(-1)) && state.expression.slice(-1) !== '') {
@@ -296,7 +286,7 @@ function toggleScientific() {
   void elements.scientificButtons.offsetWidth;
 }
 
-// Initialization
+// Initialization and UI Update Functions
 function initializeCalculator() {
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
   const setTheme = (isDark) => {
@@ -357,3 +347,17 @@ function updateParenthesisButton() {
 function updateButtonIcon(action, icon) {
   document.querySelector(`button[data-action="${action}"] i`).className = `fas fa-${icon}`;
 }
+
+// Helper Functions
+function animateTransition() {
+  elements.expressionDiv.style.transition = elements.resultDiv.style.transition = 'all 0.5s ease';
+  elements.expressionDiv.style.opacity = '0';
+  elements.expressionDiv.style.transform = 'translateY(-100%)';
+}
+
+function getActionType(action) {
+  return ['addition', 'subtraction', 'multiplication', 'division', 'exponent'].includes(action) ? 'operator' : action;
+}
+
+// Initialize the calculator
+setupEventListeners();

@@ -16,7 +16,6 @@
     </div>
     
     <section id="output" aria-live="polite">
-      <div id="history"></div>
       <div id="current">
         <div id="expression" aria-label="Expression"></div>
         <div id="result" aria-label="Result"></div>
@@ -24,6 +23,7 @@
     </section>
     
     <section id="input">
+      <!-- Top row -->
       <div class="row">
         <button class="btn blue" data-action="clear" aria-label="Clear"><i class="fas fa-trash"></i></button>
         <button class="btn function" data-action="sqrt" data-value="√" aria-label="Square root"><i class="fas fa-square-root-alt"></i></button>
@@ -31,6 +31,7 @@
         <button class="btn function" data-action="parenthesis" aria-label="Parentheses"></button>
       </div>
       
+      <!-- Scientific buttons -->
       <div id="scientific-buttons">
         <div class="row">
           <button class="btn function" data-action="deg" aria-label="Toggle degree/radian"><i class="fas fa-sync-alt"></i> DEG</button>
@@ -48,6 +49,7 @@
         </div>
       </div>
       
+      <!-- Main calculator buttons -->
       <div class="row">
         <button id="toggle-scientific" class="btn function" aria-label="Toggle scientific mode">
           <i class="fas fa-flask"></i>

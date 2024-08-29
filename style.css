@@ -9,6 +9,7 @@
   --input-bg: #1c1c1c;
   --btn-bg-scientific: #ff8c00;
   --accent-color: #ff8c00;
+  --transition-duration: 0.3s;
 }
 
 body.light-theme {
@@ -24,13 +25,14 @@ body.light-theme {
 /* Base Styles */
 body {
   height: 100vh;
+  height: 100dvh;
   margin: 0;
   display: flex;
   flex-direction: column;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color .3s, color .3s;
+  transition: background-color var(--transition-duration), color var(--transition-duration);
 }
 
 /* Layout */
@@ -38,6 +40,8 @@ main {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 100vh;
+  max-height: 100dvh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   overflow: hidden;
@@ -81,7 +85,7 @@ section {
   min-height: 30px;
   position: relative;
   vertical-align: middle;
-  transition: all .5s, color .3s;
+  transition: all var(--transition-duration);
 }
 
 #expression::after {
@@ -106,7 +110,7 @@ section {
   bottom: 10px;
   right: 10px;
   transform: translateY(100%);
-  transition: all .5s;
+  transition: all var(--transition-duration);
   margin-top: 10px;
 }
 
@@ -116,7 +120,7 @@ section {
   border-radius: 20px 20px 0 0;
   padding: 10px;
   margin-top: 10px;
-  transition: background-color .3s;
+  transition: background-color var(--transition-duration);
 }
 
 /* Buttons */
@@ -129,11 +133,11 @@ section {
   border-radius: 24px;
   cursor: pointer;
   color: var(--text-color);
-  transition: background-color .3s, transform .2s, color .3s, filter .3s;
+  transition: background-color var(--transition-duration), transform 0.2s, color var(--transition-duration), filter var(--transition-duration);
 }
 
 .btn:active {
-  transform: scale(.95);
+  transform: scale(0.95);
 }
 
 .btn:hover {
@@ -146,8 +150,7 @@ section {
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
+  outline-color: var(--accent-color);
 }
 
 .btn.light { background-color: var(--btn-bg-light); }
@@ -159,74 +162,10 @@ section {
   font-size: 1.2em;
 }
 
-/* Scientific Buttons */
-.btn.function[data-action^="sin"],
-.btn.function[data-action^="cos"],
-.btn.function[data-action^="tan"],
-.btn.function[data-action^="ln"],
-.btn.function[data-action^="log"],
-.btn.function[data-action^="e"],
-.btn.function[data-action^="pi"],
-.btn.function[data-action^="inv"],
-.btn.function[data-action^="deg"],
-#scientific-buttons .btn[data-action="factorial"] {
-  background-color: var(--btn-bg-scientific);
-  color: #fff;
-}
-
-#scientific-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-}
-
-#scientific-buttons.visible {
-  opacity: 1;
-  max-height: 500px;
-}
-
-#scientific-buttons .btn {
-  height: 50px;
-  font-size: 0.7em;
-}
-
-#scientific-buttons .row {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 2px;
-}
-
-#toggle-scientific {
-  width: 100%;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#toggle-scientific i {
-  margin-right: 8px;
-}
-
-#toggle-scientific .toggle-text {
-  display: inline;
-}
-
 /* Specific Button Styles */
 .btn[data-action="decimal"] i {
   font-size: 0.5em;
   vertical-align: middle;
-}
-
-.btn.scientific {
-  font-size: 0.8em;
-  padding: 0.5em;
 }
 
 .btn[data-action="parenthesis"] {
@@ -257,6 +196,70 @@ section {
   display: none;
 }
 
+/* Scientific Buttons */
+#scientific-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  transition: opacity var(--transition-duration) ease-in-out, max-height var(--transition-duration) ease-in-out;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+}
+
+#scientific-buttons.visible {
+  opacity: 1;
+  max-height: 500px;
+}
+
+#scientific-buttons .btn {
+  height: 50px;
+  font-size: 0.7em;
+}
+
+#scientific-buttons .row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.btn.scientific {
+  font-size: 0.8em;
+  padding: 0.5em;
+}
+
+.btn.function[data-action^="sin"],
+.btn.function[data-action^="cos"],
+.btn.function[data-action^="tan"],
+.btn.function[data-action^="ln"],
+.btn.function[data-action^="log"],
+.btn.function[data-action^="e"],
+.btn.function[data-action^="pi"],
+.btn.function[data-action^="inv"],
+.btn.function[data-action^="deg"],
+#scientific-buttons .btn[data-action="factorial"] {
+  background-color: var(--btn-bg-scientific);
+  color: #fff;
+}
+
+#toggle-scientific {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#toggle-scientific i {
+  margin-right: 8px;
+}
+
+#toggle-scientific .toggle-text {
+  display: inline;
+}
+
 /* Theme Toggle */
 #theme-toggle {
   position: absolute;
@@ -266,7 +269,7 @@ section {
   cursor: pointer;
   color: var(--text-color);
   z-index: 100;
-  transition: color .3s;
+  transition: color var(--transition-duration);
   background: none;
   border: none;
   padding: 0;
@@ -300,6 +303,18 @@ section {
 }
 
 @media (max-width: 768px) {
+  body {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+
+  main {
+    height: 100%;
+    max-height: 100vh;
+    max-height: -webkit-fill-available;
+    border-radius: 0;
+  }
+
   #toggle-scientific .toggle-text,
   #scientific-buttons .toggle-text {
     display: none;
